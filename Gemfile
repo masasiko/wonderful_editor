@@ -42,6 +42,10 @@ group :development, :test do
   # CORS設定
   gem 'rack-cors'
 
+  gem 'rubocop-rspec'
+  gem 'rubocop-rails'
+
+
 
 end
 
