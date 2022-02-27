@@ -61,6 +61,9 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
       zeitwerk (~> 2.2, >= 2.2.2)
+    annotate (3.2.0)
+      activerecord (>= 3.2, < 8.0)
+      rake (>= 10.4, < 14.0)
     ast (2.4.2)
     bcrypt (3.1.16)
     bindex (0.8.1)
@@ -239,10 +242,12 @@ GEM
     zeitwerk (2.5.4)
 
 PLATFORMS
+  ruby
   x86_64-darwin-20
 
 DEPENDENCIES
   active_model_serializers
+  annotate
   bootsnap (>= 1.4.2)
   byebug
   devise
