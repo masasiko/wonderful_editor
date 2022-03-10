@@ -31,7 +31,6 @@ module WonderfulEditor
 
     # Don't generate system test files.
 
-
     config.generators do |g|
       g.template_engine false
       g.javascripts false
