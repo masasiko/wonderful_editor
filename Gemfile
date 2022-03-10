@@ -29,7 +29,6 @@ gem "jbuilder", "~> 2.7"
 gem "bootsnap", ">= 1.4.2", require: false
 
 # devise関連
-gem "devise"
 gem "devise_token_auth"
 # CORS設定
 gem "rack-cors"
