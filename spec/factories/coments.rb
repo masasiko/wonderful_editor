@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :content do
+  factory :coment do
     body { "MyText" }
     user { nil }
     article { nil }

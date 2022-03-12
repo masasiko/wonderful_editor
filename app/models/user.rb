@@ -7,9 +7,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   include DeviseTokenAuth::Concerns::User
-
 has_many :articles, dependent: :destroy
 #dependent: :destroyはユーザーが削除されたらarticlesも削除される
-has_many :coments, dependent: :destroy
-has_many :articles, dependent: :destroy, throuth: :article_like
+has_many :article_like, dependent: :destroy
+
+has_many :coment, dependent: :destroy
 end
