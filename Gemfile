@@ -49,8 +49,7 @@ group :development, :test do
   gem "faker"
   gem "rspec-rails"
 
-  gem 'rails-erd'
-
+  gem "rails-erd"
 end
 
 group :development do
