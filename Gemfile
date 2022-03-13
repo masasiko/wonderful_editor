@@ -50,6 +50,7 @@ group :development, :test do
   gem "rspec-rails"
 
   gem "rails-erd"
+  gem 'rails-i18n'
 end
 
 group :development do

@@ -63,6 +63,8 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
   config.include FactoryBot::Syntax::Methods
   # FactoryBotのメソッドを省略した形で呼び出すことができる。
-end
+
+
 Faker::Config.locale = :ja
 # Fackerで作成られるデータが日本語の値になる。
+end
