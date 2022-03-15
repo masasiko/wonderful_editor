@@ -47,16 +47,16 @@ RSpec.describe User, type: :model do
     end
   end
 
-  context "すでに同じnameが存在するとき" do
-    before { create(:user, name: "bar") }
+  # context "すでに同じnameが存在するとき" do
+  #   before { create(:user, name: "bar") }
 
-    it "ユーザー作成に失敗する" do
-      user = FactoryBot.build(:user, name: "bar")
+  #   it "ユーザー作成に失敗する" do
+  #     user = FactoryBot.build(:user, name: "bar")
 
-      expect(user).to be_invalid
-      # expect(user.errors.details[:name][0][:error]).to eq :taken
-    end
-  end
+  #     expect(user).to be_invalid
+  #     # expect(user.errors.details[:name][0][:error]).to eq :taken
+  #   end
+  # end
 
   context "nameのみ入力" do
     let(:user) { build(:user, email: nil, password: nil) }
