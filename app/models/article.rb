@@ -18,8 +18,8 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class Article < ApplicationRecord
-  # validates_presence_of :body, :title
-  # validates  :title, length: {maximum: 30 }
+   validates_presence_of :body, :title
+   validates  :title, length: {maximum: 30 }
 
 
 

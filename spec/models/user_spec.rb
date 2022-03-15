@@ -58,4 +58,31 @@ RSpec.describe User, type: :model do
         end
 
 
+
+        context "nameのみ入力" do
+        let(:user) {build(:user,email:nil,password:nil)}
+          it "ユーザー作成に失敗する" do
+
+
+            expect(user).to be_invalid
+            expect( user.errors.details[:password][0][:error] ).to eq :blank
+            expect( user.errors.details[:email][0][:error] ).to eq :blank
+          end
+        end
+
+        context "emailがない場合" do
+          let(:user) {build(:user,email:nil)}
+            it "ユーザー作成に失敗する" do
+              expect(user).to be_invalid
+              expect( user.errors.details[:email][0][:error] ).to eq :blank
+            end
+          end
+
+          context "passwordがない場合" do
+            let(:user) {build(:user,password:nil)}
+              fit "ユーザー作成に失敗する" do
+                expect(user).to be_invalid
+                expect( user.errors.details[:password][0][:error] ).to eq :blank
+              end
+            end
 end
