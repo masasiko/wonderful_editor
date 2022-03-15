@@ -45,7 +45,8 @@ module WonderfulEditor
     end
 
     config.api_only = true
-
+    Rails.application.config.i18n.default_locale = :ja
+    Faker::Config.locale = :ja
     # config.generators.system_tests = nil
   end
 end
