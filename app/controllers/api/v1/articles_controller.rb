@@ -1,7 +1,15 @@
 class Api::V1::ArticlesController < ApplicationController
   def index
-     articles = Article.all(:title)
-     binding.pry
-     render json: articles
+    #article = Article.all
+    @article =Article.order("updated_at DESC")
+    render json: @article, each_serializer: Api::V1::ArticlePreviewSerializer
   end
+
+def show
+  binding.pry
+@article = Article.find(params[:id])
+
+
+end
+
 end
