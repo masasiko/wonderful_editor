@@ -7,7 +7,7 @@ RSpec.describe "Api::V1::Articles", type: :request do
     before { create_list(:article, article_count) }
 
     let(:article_count) { 3 }
-    it "articleの一覧が表示される" do
+    it "記事の一覧が表示される" do
       subject
       Article.all
       res = JSON.parse(response.body)
@@ -46,9 +46,8 @@ RSpec.describe "Api::V1::Articles", type: :request do
     context "適切なパラメータを送信したとき" do
       let(:params) { { article: attributes_for(:article, user_id: @current_user.id) } }
       let(:user_id) { @current_user.article.id }
-
-      it "articleのレコードを作成できる" do
-        allow_any_instance_of(Api::V1::BaseApiController).to receive(:current_user).and_return(@current_user)
+      it "記事のレコードを作成できる" do
+        allow_any_instance_of(Api::V1::BaseApiController).to receive(:current_user).and_return(@current_user) # rubocop:disable all
         expect { subject }.to change { Article.count }.by(1)
         res = JSON.parse(response.body)
         expect(res["title"]).to eq params[:article][:title]
