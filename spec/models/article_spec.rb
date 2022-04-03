@@ -47,7 +47,7 @@ RSpec.describe Article, type: :model do
     it "articleの作成に失敗する" do
       article = FactoryBot.build(:article, title: "a" * 31)
       expect(article).to be_invalid
-      # expect(article.errors.details[:title][0][:error]).to eq :too_long
+      # expect(article.errors.details[:title][0][:error]).to eq :blank
     end
   end
 end

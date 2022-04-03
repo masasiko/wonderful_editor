@@ -54,9 +54,14 @@ RSpec/NamedSubject:
 # テストを読む人にやさしくなる。
 # デフォルトの 3 より少し緩めてもヨサソウ。
 RSpec/NestedGroups:
-  Max: 4
+  Max: 5
 
 # ブロックは初見だと返り値を書いていると気づけないので and_return にしたいが、
 # ブロックの方が見た目がスッキリして見やすいので、どちらでもお好きにどうぞ。
 RSpec/ReturnFromStub:
+  Enabled: false
+
+
+# expectが多くてもOK
+RSpec/MultipleExpectations:
   Enabled: false

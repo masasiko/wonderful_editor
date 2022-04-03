@@ -66,4 +66,7 @@ RSpec.configure do |config|
 
   Faker::Config.locale = :ja
   # Fackerで作成られるデータが日本語の値になる。
+
+  config.include Devise::Test::ControllerHelpers, type: :controller
+  config.include Devise::Test::IntegrationHelpers, type: :request
 end

@@ -45,8 +45,12 @@ module WonderfulEditor
     end
 
     config.api_only = true
+    config.middleware.use ActionDispatch::Flash
     Rails.application.config.i18n.default_locale = :ja
     Faker::Config.locale = :ja
+    config.time_zone = "Asia/Tokyo"
     # config.generators.system_tests = nil
+
+    config.middleware.use ActionDispatch::Flash
   end
 end
