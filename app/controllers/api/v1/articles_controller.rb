@@ -2,9 +2,8 @@ class Api::V1::ArticlesController < Api::V1::BaseApiController
   # before_action :current_user, only: [:create ]
   # before_action :authenticate_api_v1_user!, only: [:create] #ログインユーザーでなければ実行されない
 
-
   def index
-    article = Article.all
+    Article.all
     article = Article.order("updated_at DESC")
     render json: article, each_serializer: Api::V1::ArticlePreviewSerializer
   end
@@ -16,11 +15,10 @@ class Api::V1::ArticlesController < Api::V1::BaseApiController
 
   def create
     article = Article.new(article_params)
-    article.user_id = current_user.id #ログインユーザーのuser_idになる
-    article.save
+    article.user_id = current_user.id # ログインユーザーのuser_idになる
+    article.save!
     render json: article, serializer: Api::V1::ArticleSerializer
   end
-
 
   def update
     article = Article.find(params[:id])
@@ -33,17 +31,13 @@ class Api::V1::ArticlesController < Api::V1::BaseApiController
     render json: article, serializer: Api::V1::ArticleSerializer
   end
 
-
-
   private
 
-  # def set_article
-  #   article = current_user.articles.find(params[:id])
-  # end
+    # def set_article
+    #   article = current_user.articles.find(params[:id])
+    # end
 
-  def article_params
-    params.require(:article).permit(:title, :body)
-  end
-
-
+    def article_params
+      params.require(:article).permit(:title, :body)
+    end
 end
