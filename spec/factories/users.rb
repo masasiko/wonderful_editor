@@ -33,7 +33,7 @@ FactoryBot.define do
   factory :user do
     name { Faker::Name.name }
     sequence(:email) {|n| "#{n}_#{Faker::Internet.email}" }
-    password { Faker::Internet.password(min_length: 8) }
-    encrypted_password { "00000000" }
+    password { "password" }
+    password_confirmation { "password" }
   end
 end
