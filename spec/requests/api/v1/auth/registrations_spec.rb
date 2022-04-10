@@ -15,7 +15,7 @@ RSpec.describe "Api::V1::Auth::Registrations", type: :request do
       end
     end
 
-    context "適切なパラメータが送信された時" do
+    context "適切なパラメータが送信された時のheader" do
       let(:params) { attributes_for(:user) }
       it "header情報を取得できる" do
         subject
