@@ -15,12 +15,15 @@ RSpec.describe "Api::V1::Auth::Registrations", type: :request do
       end
     end
 
-    it "header情報を取得できる" do
-      subject
-      expect(response.header["access-token"]).to be_present
-      expect(response.header["client"]).to be_present
-      expect(response.header["token-type"]).to be_present
-      expect(response.header["expiry"]).to be_present
+    context "適切なパラメータが送信された時" do
+      let(:params) { attributes_for(:user) }
+      it "header情報を取得できる" do
+        subject
+        expect(response.header["access-token"]).to be_present
+        expect(response.header["client"]).to be_present
+        expect(response.header["token-type"]).to be_present
+        expect(response.header["expiry"]).to be_present
+      end
     end
 
     context " nameが存在しない時" do
