@@ -42,7 +42,7 @@ RSpec.describe "Api::V1::Auth::Sessions", type: :request do
 
     it "ログアウトできる" do
       subject
-      expect(user.tokens).to be_blank
+      expect(user.reload.tokens).to be_blank
       expect(response).to have_http_status(:ok)
     end
   end
