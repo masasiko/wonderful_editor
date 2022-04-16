@@ -36,18 +36,14 @@ RSpec.describe "Api::V1::Articles", type: :request do
   end
 
   describe "POST/api/v1/articles" do
-    subject { post(api_v1_articles_path, params: params) }
-
-    before do
-      create(:user)
-      @current_user ||= User.first
-    end
+    subject { post(api_v1_articles_path, params: params, headers: headers) }
 
     context "適切なパラメータを送信したとき" do
-      let(:params) { { article: attributes_for(:article, user_id: @current_user.id) } }
-      let(:user_id) { @current_user.article.id }
+      let(:params) { { article: attributes_for(:article, user_id: current_ap1_v1_user.id) } }
+
+      let(:current_ap1_v1_user) { create(:user) }
+      let(:headers) { current_ap1_v1_user.create_new_auth_token }
       it "記事のレコードを作成できる" do
-        allow_any_instance_of(Api::V1::BaseApiController).to receive(:current_user).and_return(@current_user) # rubocop:disable all
         expect { subject }.to change { Article.count }.by(1)
         res = JSON.parse(response.body)
         expect(res["title"]).to eq params[:article][:title]
@@ -63,14 +59,15 @@ RSpec.describe "Api::V1::Articles", type: :request do
   # end
 
   describe " Patch(PUT) /api/v1/articles/:id" do
-    subject { patch(api_v1_article_path(article_id), params: params) }
+    subject { patch(api_v1_article_path(article_id), params: params, headers: headers) }
 
     let(:params) do
       { article: { title: Faker::Address.city, created_at: 1.day.ago } }
     end
     let(:article_id) { article.id }
-    let!(:article) { create(:article, user_id: user.id) }
-    let!(:user) { create(:user) }
+    let!(:article) { create(:article, user: current_ap1_v1_user) }
+    let!(:current_ap1_v1_user) { create(:user) }
+    let!(:headers) { current_ap1_v1_user.create_new_auth_token }
     it "任意のarticleのレコードを更新できる" do
       expect { subject }.to change { Article.find(article_id).title }.from(article.title).to(params[:article][:title]) &
                             not_change { Article.find(article_id).body } &
@@ -79,11 +76,12 @@ RSpec.describe "Api::V1::Articles", type: :request do
   end
 
   describe " DELETE /api/v1/articles/:id" do
-    subject { delete(api_v1_article_path(article_id)) }
+    subject { delete(api_v1_article_path(article_id), headers: headers) }
 
     let(:article_id) { article.id }
-    let!(:article) { create(:article, user_id: user.id) }
-    let!(:user) { create(:user) }
+    let!(:article) { create(:article, user: current_ap1_v1_user) }
+    let!(:current_ap1_v1_user) { create(:user) }
+    let!(:headers) { current_ap1_v1_user.create_new_auth_token }
     it "任意のarticleのレコードが削除できる" do
       expect { subject }.to change { Article.count }.by(-1)
     end
