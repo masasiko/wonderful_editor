@@ -1,6 +1,5 @@
 class Api::V1::ArticlesController < Api::V1::BaseApiController
-  # before_action :current_user, only: [:create ]
-  # before_action :authenticate_api_v1_user!, only: [:create] #ログインユーザーでなければ実行されない
+  before_action :authenticate_api_v1_user!, only: [:create, :update, :destroy] # ログインユーザーでなければ実行されない
 
   def index
     Article.all
@@ -15,7 +14,7 @@ class Api::V1::ArticlesController < Api::V1::BaseApiController
 
   def create
     article = Article.new(article_params)
-    article.user_id = current_user.id # ログインユーザーのuser_idになる
+    article.user_id = current_api_v1_user.id # ログインユーザーのuser_idになる
     article.save!
     render json: article, serializer: Api::V1::ArticleSerializer
   end
