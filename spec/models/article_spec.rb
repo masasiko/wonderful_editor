@@ -4,6 +4,7 @@
 #
 #  id         :bigint           not null, primary key
 #  body       :text
+#  status     :integer          default(0), not null
 #  title      :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
@@ -26,6 +27,26 @@ RSpec.describe Article, type: :model do
       expect(article).to be_valid
     end
   end
+
+  context "body,title,statusが存在している時" do
+    fit "articleが下書きとして保存できる" do
+      article = FactoryBot.build(:article, status:0)
+      expect(article).to be_valid
+      expect(article.status).to eq "draft"
+    end
+
+    fit "articleが公開として保存できる" do
+      article = FactoryBot.build(:article, status:1)
+
+      binding.pry
+      expect(article).to be_valid
+      expect(article.status).to eq "published"
+    end
+  end
+
+
+
+
 
   context "bodyが存在しない時" do
     it "articleの作成に失敗する" do
