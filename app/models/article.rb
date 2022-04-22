@@ -21,7 +21,7 @@
 class Article < ApplicationRecord
 
   enum status: {draft: 0, published:1}
-  validates :body, :title, presence: true
+  validates :body, :title, :status, presence: true
   validates :title, length: { maximum: 30 }
 
   belongs_to :user

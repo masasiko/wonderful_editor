@@ -29,16 +29,16 @@ RSpec.describe Article, type: :model do
   end
 
   context "body,title,statusが存在している時" do
-    fit "articleが下書きとして保存できる" do
+    it "articleが下書きとして保存できる" do
       article = FactoryBot.build(:article, status:0)
       expect(article).to be_valid
       expect(article.status).to eq "draft"
     end
 
-    fit "articleが公開として保存できる" do
+    it "articleが公開として保存できる" do
       article = FactoryBot.build(:article, status:1)
 
-      binding.pry
+
       expect(article).to be_valid
       expect(article.status).to eq "published"
     end

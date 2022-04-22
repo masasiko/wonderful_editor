@@ -5,12 +5,14 @@ RSpec.describe "Api::V1::Articles", type: :request do
     subject { get(api_v1_articles_path) }
 
     before { create_list(:article, article_count) }
-
+    before{ Article.update_all(status: "published") }
     let(:article_count) { 3 }
-    it "記事の一覧が表示される" do
+    fit "記事の一覧が表示される" do
       subject
-      Article.all
+      binding.pry
+      # Article.update_all(status: "published")
       res = JSON.parse(response.body)
+      binding.pry
       expect(res.length).to eq article_count
       expect(res.sort_by {|hash| -hash["created_at"].to_i }).to eq res.sort_by { "created_at" }
       expect(res[0].keys).to eq ["id", "title", "updated_at", "user"]
