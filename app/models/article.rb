@@ -19,8 +19,7 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class Article < ApplicationRecord
-
-  enum status: {draft: 0, published:1}
+  enum status: { draft: 0, published: 1 }
   validates :body, :title, :status, presence: true
   validates :title, length: { maximum: 30 }
 
