@@ -16,7 +16,7 @@ RSpec.describe "Api::V1::Articles::Drafts", type: :request do
         res = JSON.parse(response.body)
         expect(res.length).to eq article_count
         expect(res.sort_by {|hash| -hash["created_at"].to_i }).to eq res.sort_by { "created_at" }
-        expect(res[0].keys).to eq ["id", "title", "status","updated_at", "user"]
+        expect(res[0].keys).to eq ["id", "title", "status", "updated_at", "user"]
         expect(res[0]["user"].keys).to eq ["id", "provider", "uid", "allow_password_change", "name", "nickname", "image", "email", "created_at", "updated_at"]
         expect(response).to have_http_status(:ok)
       end
