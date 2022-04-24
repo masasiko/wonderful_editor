@@ -4,6 +4,7 @@
 #
 #  id         :bigint           not null, primary key
 #  body       :text
+#  status     :integer          default(0), not null
 #  title      :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
@@ -24,6 +25,21 @@ RSpec.describe Article, type: :model do
     it "articleが作られる" do
       article = FactoryBot.build(:article)
       expect(article).to be_valid
+    end
+  end
+
+  context "body,title,statusが存在している時" do
+    it "articleが下書きとして保存できる" do
+      article = FactoryBot.build(:article, status: 0)
+      expect(article).to be_valid
+      expect(article.status).to eq "draft"
+    end
+
+    it "articleが公開として保存できる" do
+      article = FactoryBot.build(:article, status: 1)
+
+      expect(article).to be_valid
+      expect(article.status).to eq "published"
     end
   end
 
