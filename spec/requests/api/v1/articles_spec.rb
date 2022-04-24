@@ -3,40 +3,44 @@ require "rails_helper"
 RSpec.describe "Api::V1::Articles", type: :request do
   describe "GET /api/v1/articles/index" do
     subject { get(api_v1_articles_path) }
+    # index正常系
 
-    before { create_list(:article, article_count) }
-    before{ Article.update_all(status: "published") }
+    before { create_list(:article, article_count, status: 1) }
+
     let(:article_count) { 3 }
-    fit "記事の一覧が表示される" do
+    it "記事の一覧が表示される" do
       subject
-      binding.pry
-      # Article.update_all(status: "published")
       res = JSON.parse(response.body)
-      binding.pry
       expect(res.length).to eq article_count
+      expect(res[0]["status"]).to eq "published"
       expect(res.sort_by {|hash| -hash["created_at"].to_i }).to eq res.sort_by { "created_at" }
-      expect(res[0].keys).to eq ["id", "title", "updated_at", "user"]
+      expect(res[0].keys).to eq ["id", "title", "status", "updated_at", "user"]
       expect(res[0]["user"].keys).to eq ["id", "name", "email"]
       expect(response).to have_http_status(:ok)
     end
   end
 
+  # show正常系
   describe "GET /api/v1/article/:id" do
     subject { get(api_v1_article_path(article_id)) }
 
-    let(:article_id) { article.id }
-    let(:article) { create(:article) }
-    it "articleの一覧が表示される" do
-      subject
-      res = JSON.parse(response.body)
-      expect(res["title"]).to eq article.title
-      expect(res["body"]).to eq article.body
-      expect(res["updated_at"]).to be_present
-      expect(res["user"]["id"]).to eq article.user.id
-      expect(res["user"].keys).to eq ["id", "name", "email"]
+    context "指定したidの記事が存在する時" do
+      let(:article_id) { article.id }
+      let(:article) { create(:article, status: 1) }
+      it "指定された記事のレコードが取得できる" do
+        subject
+        res = JSON.parse(response.body)
+        expect(article.status).to eq "published"
+        expect(res["title"]).to eq article.title
+        expect(res["body"]).to eq article.body
+        expect(res["updated_at"]).to be_present
+        expect(res["user"]["id"]).to eq article.user.id
+        expect(res["user"].keys).to eq ["id", "name", "email"]
+      end
     end
   end
 
+  # create正常系
   describe "POST/api/v1/articles" do
     subject { post(api_v1_articles_path, params: params, headers: headers) }
 
@@ -59,7 +63,7 @@ RSpec.describe "Api::V1::Articles", type: :request do
 
   # end
   # end
-
+  # update正常系
   describe " Patch(PUT) /api/v1/articles/:id" do
     subject { patch(api_v1_article_path(article_id), params: params, headers: headers) }
 
@@ -77,6 +81,7 @@ RSpec.describe "Api::V1::Articles", type: :request do
     end
   end
 
+  # destroy正常系
   describe " DELETE /api/v1/articles/:id" do
     subject { delete(api_v1_article_path(article_id), headers: headers) }
 
