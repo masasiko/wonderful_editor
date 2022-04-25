@@ -2,7 +2,6 @@ require "rails_helper"
 
 RSpec.describe "Api::V1::Current::Articles", type: :request do
   describe "GET /api/v1/current/article" do
-
     # index正常系
     subject { get(api_v1_current_articles_path, headers: headers) }
 
@@ -12,7 +11,6 @@ RSpec.describe "Api::V1::Current::Articles", type: :request do
       let(:article_id) { article.id }
       let(:current_ap1_v1_user) { create(:user) }
       let(:headers) { current_ap1_v1_user.create_new_auth_token }
-      let!(:article_a) { create(:article, status: 1) }
       it "ログインしているユーザーの公開記事一覧を表示できる" do
         subject
         res = JSON.parse(response.body)
@@ -32,7 +30,7 @@ RSpec.describe "Api::V1::Current::Articles", type: :request do
       let(:article_id) { article.id }
       let!(:current_ap1_v1_user) { create(:user) }
       let(:headers) { current_ap1_v1_user.create_new_auth_token }
-      fit "ログインしているユーザーの公開一覧を表示されない" do
+      it "ログインしているユーザーの公開一覧を表示されない" do
         subject
         res = JSON.parse(response.body)
         expect(res).to eq []
