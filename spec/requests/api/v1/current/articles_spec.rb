@@ -1,16 +1,17 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "Api::V1::Current::Articles", type: :request do
   describe "GET /api/v1/current/article" do
-    # index正常系
 
-      subject { get(api_v1_current_articles_path, headers: headers) }
-      context "ログイン状態で記事のstatusがpublishedの場合" do
+    # index正常系
+    subject { get(api_v1_current_articles_path, headers: headers) }
+
+    context "ログイン状態で記事のstatusがpublishedの場合" do
       let!(:article) { create_list(:article, article_count, user: current_ap1_v1_user, status: 1) }
       let(:article_count) { 3 }
       let(:article_id) { article.id }
-      let!(:current_ap1_v1_user) { create(:user) }
-      let!(:headers) { current_ap1_v1_user.create_new_auth_token }
+      let(:current_ap1_v1_user) { create(:user) }
+      let(:headers) { current_ap1_v1_user.create_new_auth_token }
       let!(:article_a) { create(:article, status: 1) }
       it "ログインしているユーザーの公開記事一覧を表示できる" do
         subject
@@ -30,8 +31,8 @@ RSpec.describe "Api::V1::Current::Articles", type: :request do
       let(:article_count) { 3 }
       let(:article_id) { article.id }
       let!(:current_ap1_v1_user) { create(:user) }
-      let!(:headers) { current_ap1_v1_user.create_new_auth_token }
-      it "ログインしているユーザーの公開一覧を表示されない" do
+      let(:headers) { current_ap1_v1_user.create_new_auth_token }
+      fit "ログインしているユーザーの公開一覧を表示されない" do
         subject
         res = JSON.parse(response.body)
         expect(res).to eq []
@@ -62,11 +63,11 @@ RSpec.describe "Api::V1::Current::Articles", type: :request do
 
     # show異常系
     context "指定された記事がログインユーザー以外の場合" do
-      let!(:article) { create(:article,  status: 1) }
+      let!(:article) { create(:article, status: 1) }
       let(:article_id) { article.id }
       let!(:current_ap1_v1_user) { create(:user) }
       let(:headers) { current_ap1_v1_user.create_new_auth_token }
-      fit "指定された記事が表示されない" do
+      it "指定された記事が表示されない" do
         expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
