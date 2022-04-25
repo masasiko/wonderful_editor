@@ -37,37 +37,4 @@ RSpec.describe "Api::V1::Current::Articles", type: :request do
       end
     end
   end
-
-  describe "GET /api/v1/current/articles/:id" do
-    subject { get(api_v1_current_article_path(article_id), headers: headers) }
-
-    # show正常系
-    context "ログインユーザの記事が公開記事の場合" do
-      let!(:article) { create(:article, user: current_ap1_v1_user, status: 1) }
-      let(:article_id) { article.id }
-      let!(:current_ap1_v1_user) { create(:user) }
-      let(:headers) { current_ap1_v1_user.create_new_auth_token }
-      it "指定された記事が表示される" do
-        subject
-        res = JSON.parse(response.body)
-        expect(article.status).to eq "published"
-        expect(res["title"]).to eq article.title
-        expect(res["body"]).to eq article.body
-        expect(res["updated_at"]).to be_present
-        expect(res["user"]["id"]).to eq article.user.id
-        expect(res["user"].keys).to eq ["id", "name", "email"]
-      end
-    end
-
-    # show異常系
-    context "指定された記事がログインユーザー以外の場合" do
-      let!(:article) { create(:article, status: 1) }
-      let(:article_id) { article.id }
-      let!(:current_ap1_v1_user) { create(:user) }
-      let(:headers) { current_ap1_v1_user.create_new_auth_token }
-      it "指定された記事が表示されない" do
-        expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
-      end
-    end
-  end
 end

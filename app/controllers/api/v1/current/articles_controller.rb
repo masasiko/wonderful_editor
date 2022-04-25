@@ -6,9 +6,4 @@ class Api::V1::Current::ArticlesController < ApplicationController
     article = current_api_v1_user.articles.published.order("updated_at DESC")
     render json: article, each_serializer: Api::V1::ArticlePreviewSerializer
   end
-
-  def show
-    article = current_api_v1_user.articles.published.find(params[:id])
-    render json: article, serializer: Api::V1::ArticleSerializer
-  end
 end
