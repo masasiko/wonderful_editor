@@ -2,7 +2,6 @@ class Api::V1::ArticlesController < Api::V1::BaseApiController
   before_action :authenticate_api_v1_user!, only: [:create, :update, :destroy] # ログインユーザーでなければ実行されない
 
   def index
-    Article.all
     article = Article.published.order("updated_at DESC")
     render json: article, each_serializer: Api::V1::ArticlePreviewSerializer
   end
