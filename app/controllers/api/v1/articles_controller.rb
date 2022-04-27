@@ -19,7 +19,8 @@ class Api::V1::ArticlesController < Api::V1::BaseApiController
   end
 
   def update
-    article = Article.find(params[:id])
+    article = article.api_v1_current_user.find(params[:id])
+
     article.update!(article_params)
   end
 
