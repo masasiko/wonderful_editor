@@ -6,11 +6,11 @@ RSpec.describe "Api::V1::Current::Articles", type: :request do
     subject { get(api_v1_current_articles_path, headers: headers) }
 
     context "ログイン状態で記事のstatusがpublishedの場合" do
-      let!(:article) { create_list(:article, article_count, user: current_ap1_v1_user, status: 1) }
+      let!(:article) { create_list(:article, article_count, user: current_api_v1_user, status: 1) }
       let(:article_count) { 3 }
       let(:article_id) { article.id }
-      let(:current_ap1_v1_user) { create(:user) }
-      let(:headers) { current_ap1_v1_user.create_new_auth_token }
+      let(:current_api_v1_user) { create(:user) }
+      let(:headers) { current_api_v1_user.create_new_auth_token }
       it "ログインしているユーザーの公開記事一覧を表示できる" do
         subject
         res = JSON.parse(response.body)
@@ -25,11 +25,11 @@ RSpec.describe "Api::V1::Current::Articles", type: :request do
 
     # index異常系
     context "ログイン状態で記事のstatusが下書き記事のみ場合" do
-      let!(:article) { create_list(:article, article_count, user: current_ap1_v1_user, status: 0) }
+      let!(:article) { create_list(:article, article_count, user: current_api_v1_user, status: 0) }
       let(:article_count) { 3 }
       let(:article_id) { article.id }
-      let!(:current_ap1_v1_user) { create(:user) }
-      let(:headers) { current_ap1_v1_user.create_new_auth_token }
+      let!(:current_api_v1_user) { create(:user) }
+      let(:headers) { current_api_v1_user.create_new_auth_token }
       it "ログインしているユーザーの公開一覧を表示されない" do
         subject
         res = JSON.parse(response.body)
