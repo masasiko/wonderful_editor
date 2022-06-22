@@ -1,6 +1,6 @@
 class Api::V1::ArticlesController < Api::V1::BaseApiController
   before_action :authenticate_api_v1_user!, only: [:create, :update, :destroy] # ログインユーザーでなければ実行されない
-
+  before_action :baria_user, only: [:update, :destroy]
   def index
     article = Article.published.order("updated_at DESC")
     render json: article, each_serializer: Api::V1::ArticlePreviewSerializer
@@ -19,8 +19,7 @@ class Api::V1::ArticlesController < Api::V1::BaseApiController
   end
 
   def update
-    article = article.api_v1_current_user.find(params[:id])
-
+    article = current_api_v1_user.articles.find(params[:id])
     article.update!(article_params)
   end
 
@@ -38,5 +37,11 @@ class Api::V1::ArticlesController < Api::V1::BaseApiController
 
     def article_params
       params.require(:article).permit(:title, :body, :status)
+    end
+
+    def baria_user
+      unless Article.find(params[:id]).user.id.to_i == current_api_v1_user.id
+        raise "投稿主ではありません"
+      end
     end
 end
